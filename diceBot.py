@@ -13,26 +13,27 @@ except vk_api.AuthError as error_msg:
 
 vk = vk_session.get_api()
 from vk_api.longpoll import VkLongPoll, VkEventType
-
+n = 1
 longpoll = VkLongPoll(vk_session)
-for event in longpoll.listen():
-    if event.type == VkEventType.MESSAGE_NEW:
-        if event.from_chat:
-            temp=event.text
-            temp = temp.replace(' ', '')
-            temp = temp.lower()
-            if temp[0:4] == 'roll':
-                try:
-                    n=int(temp[4:])
-                    temp = '%i/%i' % (random.randint(1,n),n)
-                    vk.messages.send(
-                        chat_id=event.chat_id,
-                        random_id=event.random_id,
-                        message=temp)
-                except:
-                    temp = '%i/20' % (random.randint(1,20))
-                    vk.messages.send(
-                        chat_id=event.chat_id,
-                        random_id=event.random_id,
-                        message=temp)
-            del temp
+while n<10:
+    for event in longpoll.listen():
+        if event.type == VkEventType.MESSAGE_NEW:
+            if event.from_chat:
+                temp=event.text
+                temp = temp.replace(' ', '')
+                temp = temp.lower()
+                if temp[0:4] == 'roll':
+                    try:
+                        n=int(temp[4:])
+                        temp = '%i/%i' % (random.randint(1,n),n)
+                        vk.messages.send(
+                            chat_id=event.chat_id,
+                            random_id=event.random_id,
+                            message=temp)
+                    except:
+                        temp = '%i/20' % (random.randint(1,20))
+                        vk.messages.send(
+                            chat_id=event.chat_id,
+                            random_id=event.random_id,
+                            message=temp)
+                del temp
