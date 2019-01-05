@@ -1,7 +1,7 @@
 import vk_api
 import requests
-import random
 import connect
+import logic
 
 session = requests.Session()
 vk_session = vk_api.VkApi(connect.login, connect.password)
@@ -25,15 +25,9 @@ while n<10:
                 if temp[0:4] == 'roll':
                     try:
                         n=int(temp[4:])
-                        temp = '%i/%i' % (random.randint(1,n),n)
-                        vk.messages.send(
-                            chat_id=event.chat_id,
-                            random_id=event.random_id,
-                            message=temp)
                     except:
-                        temp = '%i/20' % (random.randint(1,20))
-                        vk.messages.send(
-                            chat_id=event.chat_id,
-                            random_id=event.random_id,
-                            message=temp)
+                        n=20
+                    logic.roll(vk,event,n)
+                if temp[0:4] =='flip':
+                    logic.flip(vk,event)
                 del temp
