@@ -5,10 +5,6 @@ import logic
 import time
 
 
-def textprecalc(text):
-
-    return text
-
 session = requests.Session()
 vk_session = vk_api.VkApi(connect.login, connect.password)
 
@@ -44,7 +40,9 @@ while n<10:
             #обработка сообщений из бесед
 
             if event.from_chat:
-                temp = textprecalc(event.text)
+                temp = event.text
+                temp = event.text
+                temp = temp.lower().replace(' ','')
                 if temp[0:4] == 'roll':
                     if str(event.user_id) in banlist:
                         vk.messages.send(
