@@ -2,7 +2,6 @@ import vk_api
 import requests
 import connect
 import logic
-import time
 
 
 session = requests.Session()
@@ -41,7 +40,6 @@ while n<10:
 
             if event.from_chat:
                 temp = event.text
-                temp = event.text
                 temp = temp.lower().replace(' ','')
                 if temp[0:4] == 'roll':
                     if str(event.user_id) in banlist:
@@ -66,6 +64,7 @@ while n<10:
 
             #обработка личных сообщений
             elif event.from_user:
+                if event.to_me:
                     print("user with id %s writed %s \n" % (event.user_id, event.text))
                     temp = event.text
                     temp = temp.lower().replace(' ','')
@@ -80,6 +79,11 @@ while n<10:
                                 print("try to add admin \n")
                                 try:
                                     logic.adminAdd(vk,event,temp[8:],admins)
+                                    print(admins)
+                                    vk.messages.send(
+                                        user_id=event.user_id,
+                                        random_id=event.random_id,
+                                        message='администратор добавлен')
                                 except:
                                     print("error \n")
                                     vk.messages.send(
@@ -101,5 +105,20 @@ while n<10:
                                     message='пользователь в списке администраторов, вы же не хотите чтобы началась великая война админов?')
                             else:
                                 print("try to ban %s" % (temp[3:]))
-                                logic.ban(vk,event,temp[3:],banlist)
-                            del temp
+                                logic.ban(temp[3:],banlist)
+                                vk.messages.send(
+                                    user_id=event.user_id,
+                                    random_id=event.random_id,
+                                    message='пользователь забанен')
+
+                    elif temp[:5] =="unban":
+                        if str(event.user_id) in admins:
+                            print("try to unban %s" % (temp[5:]))
+                            logic.unban(temp[5:],banlist)
+                            with open("banlist.txt") as f:
+                                banlist = f.readlines()
+                            print(banlist)
+                            vk.messages.send(
+                                user_id=event.user_id,
+                                random_id=event.random_id,
+                                message='пользователь разбанен')

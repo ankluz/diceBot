@@ -24,24 +24,24 @@ def flip(vk,event):
             random_id=event.random_id,
             message='Решка!')
 
-def adminAdd(vk,event, id, list):
-    f = open('admins.txt',"a")
-    f.write(id+"\n")
-    f.close()
+def adminAdd( id, list):
+    with open('admins.txt',"a") as f:
+        f.write(id+"\n")
     list.append(id)
     print("admin add\n")
-    vk.messages.send(
-        user_id=event.user_id,
-        random_id=event.random_id,
-        message='администратор добавлен')
 
-def ban(vk,event,id,list):
-    f = open('banlist.txt',"a")
-    f.write(id+"\n")
-    f.close()
+def ban(id,list):
+    with open('banlist.txt',"a") as f:
+        f.write(id+"\n")
     list.append(id)
     print("banned\n")
-    vk.messages.send(
-        user_id=event.user_id,
-        random_id=event.random_id,
-        message='пользователь забанен')
+
+def unban(id,list):
+    f = open("banlist.txt","r")
+    temp = f.readlines()
+    f.close()
+    f = open("banlist.txt", "w")
+    for line in temp:
+        if line != id + "\n":
+            f.write(line)
+    f.close()
