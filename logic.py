@@ -5,24 +5,9 @@ import connect
 
 
 
-def roll(vk,event, n=20):
-    temp = '%i/%i' % (random.randint(1,n),n)
-    vk.messages.send(
-        chat_id=event.chat_id,
-        random_id=event.random_id,
-        message=temp)
-
-def flip(vk,event):
-    if random.randint(1,2) == 1:
-        vk.messages.send(
-            chat_id=event.chat_id,
-            random_id=event.random_id,
-            message='Орел!')
-    else:
-        vk.messages.send(
-            chat_id=event.chat_id,
-            random_id=event.random_id,
-            message='Решка!')
+def roll(n):
+        m = '%i/%i' % (random.randint(1,n),n)
+        return m
 
 def adminAdd( id, list):
     with open('admins.txt',"a") as f:
@@ -36,7 +21,7 @@ def ban(id,list):
     list.append(id)
     print("banned\n")
 
-def unban(id,list):
+def unban(id):
     f = open("banlist.txt","r")
     temp = f.readlines()
     f.close()
