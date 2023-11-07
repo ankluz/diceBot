@@ -5,6 +5,8 @@ import logic
 import sqlite3
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 
+# Важный коммент
+
 Cn = sqlite3.connect(connect.dbn)
 curs = Cn.cursor()
 vk_session = vk_api.VkApi(token=connect.token)
