@@ -1,6 +1,6 @@
 import vk_api
 import random
-import connect
+
 
 def roll(n):
         m = '%i/%i' % (random.randint(1,n),n)
